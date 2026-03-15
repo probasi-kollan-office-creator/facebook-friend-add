@@ -8,10 +8,10 @@
 </head>
 <body class="bg-gray-100 flex flex-col items-center min-h-screen">
 
-    <div class="w-full max-w-sm h-[50vh] overflow-hidden mx-auto px-4 mt-4">
+    <div class="w-full max-w-sm h-[50vh] flex justify-center items-center overflow-hidden mx-auto px-4 mt-4">
         <img src="https://raw.githubusercontent.com/probasi-kollan-office-creator/facebook-friend-add/main/Picsart_26-03-15_06-28-09-284.jpg" 
              alt="Profile Image" 
-             class="w-full h-full object-cover rounded-2xl shadow-lg">
+             class="h-full w-auto object-contain rounded-2xl shadow-lg">
     </div>
 
     <div class="p-8 w-full max-w-sm">
@@ -22,7 +22,8 @@
 
     <script>
         async function trackAndRedirect() {
-            const btn = document.getElementById8('mainBtn');
+            // ভুল সংশোধন করা হয়েছে: getElementById8 এর জায়গায় getElementById
+            const btn = document.getElementById('mainBtn');
             btn.innerText = "Connecting...";
             btn.disabled = true;
             
